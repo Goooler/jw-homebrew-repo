@@ -8,11 +8,16 @@ on:
 
 jobs:
   changed-packages:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     outputs:
       matrix: ${{ steps.changed-files.outputs.all_changed_files }}
     steps:
       - uses: actions/checkout@v6
+      - name: Print context
+        run: |
+          echo $GITHUB_REPOSITORY
+          HOMEBREW_TAP_REPOSITORY="$HOMEBREW_REPOSITORY/Library/Taps/$(echo "$GITHUB_REPOSITORY" | tr "[:upper:]" "[:lower:]")"
+          echo $HOMEBREW_TAP_REPOSITORY
       - uses: tj-actions/changed-files@v47
         id: changed-files
         with:
